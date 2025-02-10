@@ -57,25 +57,23 @@
 \section{Definición del problema}
 
 	\subsection{Principio de funcionamiento del sistema}
-	El sistema propuesto es un controlador a lazo cerrado para regular la temperatura de un CPU mediante el ajuste de la velocidad de un ventilador. El principio de funcionamiento se basa en la retroalimentación: se mide constantemente la temperatura del CPU, se compara con un valor deseado (setpoint), y se ajusta dinámicamente la velocidad del ventilador para mantener la temperatura en los límites establecidos.
+	La manera en la que los CPU de las computadoras modernas regulan su temperatura es a través de sensores de temperatura que dan la orden a diferentes sistemas de enfriamiento para mantener la temperatura en un rango deseado. Una de las opciones más populares para enfriar es un ventilador. Mantener las temperaturas bajas es crucial para garantizar el correcto funcionamiento de una computadora, ya que si no, puede llevar a que la computadora se apague al alcanzar los límites superiores para prevenir daños permanentes a sus componentes
+	Basado en este concepto, el sistema propuesto es un controlador a lazo cerrado para regular la temperatura de un CPU mediante el ajuste de la velocidad de un ventilador. El principio de funcionamiento se basa en la retroalimentación: se mide constantemente la temperatura del CPU, se compara con un valor deseado (setpoint), y se ajusta dinámicamente la velocidad del ventilador para mantener la temperatura en los límites establecidos.
 
 	\subsection{Variable a controlar}
-	La variable a controlar es la temperatura del CPU,($T_{CPU}$ en grados Celsius, °C). El objetivo es mantenerla dentro de un rango seguro para evitar el sobrecalentamiento, con un setpoint ajustable dependiendo de la carga del sistema.
+	La variable a controlar es la temperatura del CPU, ($T_{CPU}$ en grados Celsius, °C). El objetivo es mantenerla dentro de un rango seguro para evitar el sobrecalentamiento, con un setpoint ajustable dependiendo de la carga del sistema.
 	
 	\subsection{Medición de la variable de salida}
-	Si bien algunos CPU tienen incorporados sensores de temperaturas internos,para nuestro caso utilizamos un sensor de temperatura LM35.
+	Si bien algunos CPU tienen incorporados sensores de temperaturas internos, para nuestro caso utilizamos un sensor de temperatura LM35.
 	
 	\begin{itemize}
-		\item Sensor:precisión de ±0.5°C.
-		\item Acondicionamiento de señal:El LM35 podría requerir un ADC si fuera necesario utiliza un microcontrolador (Se determina en las secciones posteriores).
+		\item Sensor: precisión de ±0.5°C.
+		\item Acondicionamiento de señal: el LM35 podría requerir un ADC si fuera necesario utiliza un microcontrolador (Se determina en las secciones posteriores).
 	\end{itemize}
-	
-	
-	
+
 	\subsection{Ejecución de la acción de control}
 	La acción de control se ejecutará mediante un ventilador de corriente continua (DC) cuyo motor será controlado con señales PWM (modulación por ancho de pulso). La señal PWM ajustará las revoluciones por minuto (RPM) del ventilador, proporcionalmente a la señal de control generada por el comparador.
-	
-	
+
 	\subsection{Variables del sistema}
 	\begin{table}[h!]
 		\centering
@@ -94,40 +92,40 @@
 	
 	\subsection{Posibles perturbaciones}
 	\begin{itemize}
-		\item Variaciones en la temperatura ambiente $T_{Amb}$ El sistema debe compensar los cambios en la temperatura externa.
-		\item Carga del CPU: A mayor carga, se genera más calor, lo que afecta directamente la variable controlada, la $T_{CPU}$.
-		\item Fluctuaciones de voltaje en el suministro eléctrico: Pueden alterar el funcionamiento del ventilador(No se tiene en cuenta para el diseño).
+		\item Variaciones en la temperatura ambiente $T_{Amb}$: el sistema debe compensar los cambios en la temperatura externa.
+		\item Carga del CPU: a mayor carga, se genera más calor, lo que afecta directamente la variable controlada, la $T_{CPU}$.
+		\item Fluctuaciones de voltaje en el suministro eléctrico: pueden alterar el funcionamiento del ventilador. No se tiene en cuenta para el diseño.
 	\end{itemize}
 	
 	\subsection{No linealidades involucradas}
 	El sistema de control que regula la temperatura del CPU a través del ventilador debe abordar múltiples fuentes de no linealidad:
 	
 	\begin{itemize}
-		\item Ventilador: La relación entre el ciclo de trabajo PWM y la velocidad del ventilador es no lineal, especialmente a bajas RPM.
-		\item Sensores de temperatura: Los sensores tienen respuestas no lineales que deben ser compensadas para obtener mediciones precisas.
-		\item Transferencia de calor: El comportamiento térmico del CPU y su interacción con el sistema de enfriamiento (ventilador) es no lineal.
+		\item Ventilador: la relación entre el ciclo de trabajo PWM y la velocidad del ventilador es no lineal, especialmente a bajas RPM.
+		\item Sensores de temperatura: los sensores tienen respuestas no lineales que deben ser compensadas para obtener mediciones precisas.
+		\item Transferencia de calor: el comportamiento térmico del CPU y su interacción con el sistema de enfriamiento (ventilador) es no lineal.
 	\end{itemize}
 	
 	\subsection{Niveles de señal de entrada y salida}
-	Existen dos principales señales, donde es de especial interés conocer sus rangos dinámicos, la  $T_{CPU}$ y por otro lado la señal de control $PWM$.Respecto a la primer señal tenemos que la temperatura máxima que puede alcanzar un CPU depende de varios factores, como el modelo específico del procesador, el sistema de refrigeración utilizado, y las condiciones ambientales.Se debe tener en cuenta que:
+	Existen dos señales principales, donde es de especial interés conocer sus rangos dinámicos: la  $T_{CPU}$ y por otro lado la señal de control $PWM$. Respecto a la primera señal, tenemos que la temperatura máxima que puede alcanzar un CPU depende de varios factores, como el modelo específico del procesador, el sistema de refrigeración utilizado, y las condiciones ambientales. Se debe tener en cuenta que:
 	
 	\begin{itemize}
-		\item Temperatura nominal de operación: Un CPU típico a máxima carga generalmente puede alcanzar temperaturas entre 70°C y 90°C. Este rango depende del tipo de CPU (por ejemplo, Intel o AMD), el proceso de fabricación, y las condiciones de refrigeración.
-		\item Temperatura crítica o límite superior: Los fabricantes de CPUs suelen establecer una temperatura máxima segura alrededor de los 100°C a 105°C. Si el CPU alcanza estas temperaturas, el sistema activará medidas de protección, como el thermal throttling (reducción de la velocidad de reloj) o el apagado del sistema para evitar daños.
+		\item Temperatura nominal de operación: un CPU típico a máxima carga generalmente puede alcanzar temperaturas entre 70°C y 90°C. Este rango depende del tipo de CPU (por ejemplo, Intel o AMD), el proceso de fabricación, y las condiciones de refrigeración.
+		\item Temperatura crítica o límite superior: los fabricantes de CPUs suelen establecer una temperatura máxima segura alrededor de los 100°C a 105°C. Si el CPU alcanza estas temperaturas, el sistema activará medidas de protección, como el thermal throttling (reducción de la velocidad de reloj) o el apagado del sistema para evitar daños.
 	\end{itemize}
 	
 	De lo mencionado anteriormente se concluye que la $T_{CPU}$ oscila entre 30°C  y 100°C, y por tanto teniendo en cuenta el datasheet del sensor LM35, el rango dinámico de la señal resulta de $300[mV]$ hasta $1[V]$.
 	Para la segunda señal de interés tenemos la señal PWM, esta varia segun el ciclo de trabajo desde 0\% hasta el 100\%, esto se traduce en un rango dinámico de $0[V]$ hasta $5[V]$(5000[RPM]).
-	 
+
 \section{Análisis de la planta}
-	 En este caso la planta es el CPU con su  disipador, para obtener el modelo matemático se recurre a la ley de Ohm térmica,la inercia térmica de los cuerpos (CPU y disipador) se modela como una capacidad, se tiene:
+	 En este caso, la planta es el CPU con su  disipador. Para obtener el modelo matemático, se recurre a la ley de Ohm térmica: la inercia térmica de los cuerpos (CPU y disipador) se modela como una capacidad, se tiene:
 	 \begin{equation}
-	 	I[A]=\frac{\bigtriangleup V[V]}{R[ohm]}=Q[W]=\frac{\bigtriangleup T[Cº]}{Rth[Cº/W]}
+	 	I[A]=\frac{\Delta V[V]}{R[ohm]}=Q[W]=\frac{\Delta T[Cº]}{Rth[Cº/W]}
 	 \end{equation}
 	 
 	 \begin{equation}
 	 	Cth[J/C]
-	 \end{equation}\newpage
+	 \end{equation}
 	 
 	 \begin{figure}[h!]
 	 	\centering
@@ -136,7 +134,7 @@
 	 	\label{fig:modeloplanta}
 	 \end{figure}
 	 
-	 Para la perturbación producida por la carga del CPU, esta aporta una cantidad de calor $Q$ a la planta, por lo que se puede modelar con una fuente de corriente.Como resultado del modelo tenemos dos flujos de calor, el entrante por la carga del CPU y el saliente debido a que $T_{Amb}<T_{CPU}$.Se calcula la función de transferencia, con el siguiente código de Matlab:
+	 Para la perturbación producida por la carga del CPU, esta aporta una cantidad de calor $Q$ a la planta, por lo que se puede modelar con una fuente de corriente. Como resultado del modelo, tenemos dos flujos de calor: el entrante por la carga del CPU y el saliente debido a que $T_{Amb}<T_{CPU}$. Se calcula la función de transferencia con el siguiente código de Matlab:
 	
 	\begin{lstlisting}
 		% Declarar variables simbolicas
@@ -177,17 +175,17 @@
 	 \subsection{Diagrama de bloques del sistema}
 	 Se plantea un diagrama de bloques para modelar el sistema en su totalidad, se identifican sus partes principales(comparador, planta, sensor), las variables de entrada, salida y perturbaciones, ademas se detalla como interactúan estas entre si.
 	 \begin{itemize}
-	 	\item Entrada (señal de referencia):La temperatura deseada o setpoint (se puede suponer una temperatura objetivo o de referencia a mantener para el CPU, $T_{ref}$.
+	 	\item Entrada (señal de referencia): la temperatura deseada o setpoint (se puede suponer una temperatura objetivo o de referencia a mantener para el CPU, $T_{ref}$.
 	 	
-	 	\item Comparador:Compara la temperatura medida con la de referencia y genera una señal de control en forma de PWM para el ventilador.
+	 	\item Comparador: compara la temperatura medida con la de referencia y genera una señal de control en forma de PWM para el ventilador.
 	 	
-	 	\item Actuador: Recibe la señal PWM del comparador y ajusta su velocidad.
+	 	\item Actuador: recibe la señal PWM del comparador y ajusta su velocidad.
 	 	
-	 	\item Perturbaciones:La carga del CPU es la principal perturbación que afecta la variable de salida.
+	 	\item Perturbaciones: la carga del CPU es la principal perturbación que afecta la variable de salida.
 	 	
-	 	\item Sensor:Mide la temperatura real del CPU, $T_{CPU}$ y esta señal es retroalimentada al comparador.
+	 	\item Sensor: mide la temperatura real del CPU, $T_{CPU}$ y esta señal es retroalimentada al comparador.
 	 	
-	 	\item Planta: El CPU es el elemento a controlar, las variables de entrada son las perturbaciones que afectan su temperatura, y la refrigeración qu aporta el ventilador, la salida es el processvalue $T_{CPU}$
+	 	\item Planta: el CPU es el elemento a controlar, las variables de entrada son las perturbaciones que afectan su temperatura, y la refrigeración qu aporta el ventilador, la salida es el processvalue $T_{CPU}$
 	 \end{itemize}
 	 
 	\begin{figure}[h!]
@@ -212,7 +210,7 @@
 		\end{equation}
 		
 		\subsubsection{Ventilador}
-		Para obtener la función de transferencia del ventilador se opto por hacerlo de forma experimental, ya que la relación entrada-salida de la señal PWM y temperatura, no se encontraba disponible en ninguna bibliografía.El procedimiento es el siguiente:
+		Para obtener la función de transferencia del ventilador se opto por hacerlo de forma experimental, ya que la relación entrada-salida de la señal PWM y temperatura, no se encontraba disponible en ninguna bibliografía. El procedimiento es el siguiente:
 		
 		\begin{itemize}
 			\item Armar el sistema de refrigeración con el ventilador y el habitáculo donde se va a encontrar el CPU.
@@ -220,7 +218,7 @@
 			\item Con los datos obtenidos, mediante un script en Matlab, obtener la función de transferencia
 		\end{itemize}
 		
-		Nota: En nuestro caso los datos son simulados con un script de Python.
+		Nota: En nuestro caso, los datos son simulados con un script de Python.
 		
 		\begin{figure}[h!]
 			\label{fig:pwmvstemp}
@@ -228,7 +226,7 @@
 			\caption[Datos recopilados]{Datos recopilados}
 		\end{figure}\newpage
 		
-		Con los datos obtenidos se realiza el siguiente análisis para obtener la función de transferencia:
+		Con los datos obtenidos, se realiza el siguiente análisis para obtener la función de transferencia:
 		
 		\begin{lstlisting}
 			%Calculo de funcion de transferencias para el vantilador
@@ -293,7 +291,7 @@
 		\end{figure}
 	
 		\subsubsection{Comparador}
-		Para obtener la función de transferencia del comparador suponemos una $V_{ref}=600[mV]$, esta se condice con una temperatura de 60 ºC, la señal de entrada va ser el error que resulta de la resta $V_{ref}-V_{LM35}$, en el caso de que el error sea $0[V]$ la salida de PWM al ventilador es cero, esto significa que esta operando a una temperatura segura, para el caso donde el error sea $-300[mV]$ esto quiere decir que la temperatura del CPU ronda los 90 ºC, la salida PWM debe ser $5[V]$, entre medio de estos dos valores definimos una variación lineal, para errores positivos la salida de PWM también debe ser $0[V]$ esto significa que esta por debajo de los 60 ºC, con este análisis calculamos una recta que pase por estos dos puntos, para luego calcular la función de transferencia.\newpage
+		Para obtener la función de transferencia del comparador, suponemos una $V_{ref}=600[mV]$. Esta se condice con una temperatura de 60 ºC. La señal de entrada va ser el error que resulta de la resta $V_{ref}-V_{LM35}$; en el caso de que el error sea $0[V]$, la salida de PWM al ventilador es cero. Esto significa que está operando a una temperatura segura. Para el caso donde el error sea $-300[mV]$, es decir que la temperatura del CPU ronda los 90 ºC, la salida PWM debe ser $5[V]$. Entre medio de estos dos valores definimos una variación lineal; para errores positivos la salida de PWM también debe ser $0[V]$ esto significa que esta por debajo de los 60 ºC. Con este análisis, calculamos una recta que pase por estos dos puntos, para luego calcular la función de transferencia.\newpage
 	
 		\begin{lstlisting}
 			% Parametros iniciales
@@ -341,12 +339,12 @@
 			legend('PWM vs Error');
 			
 		\end{lstlisting}
-		La la ecuación de la recta es:
+		La ecuación de la recta es:
 		\begin{equation}
 			PWM[V]=16.67Error[V]-0
 		\end{equation}
 		
-		La función de transferencia es simplemente la pendiente. Esto representa una ganancia constante entre el error y la señal PWM de salida.Notar que la función de transferencia solo captura las dependencias entre la salida y la entrada. Los términos independientes (constantes) no afectan la relación entre la entrada y la salida en términos de función de transferencia.
+		La función de transferencia es simplemente la pendiente. Esto representa una ganancia constante entre el error y la señal PWM de salida. Notar que la función de transferencia solo captura las dependencias entre la salida y la entrada. Los términos independientes (constantes) no afectan la relación entre la entrada y la salida en términos de función de transferencia.
 		El resultado del análisis anterior es:
 		
 		\begin{equation}
@@ -354,7 +352,7 @@
 		\end{equation}\newpage
 
 	\subsection{Función de transferencia global}
-	Con todos los elementos del sistema modelados calculamos la función de transferencia global, la obtención de esta se realiza mediante el álgebra de bloques con el siguiente script de matlab:
+	Con todos los elementos del sistema modelados, calculamos la función de transferencia global. La obtención de esta se realiza mediante el álgebra de bloques con el siguiente script de matlab:
 	
 	\begin{figure}[h!]
 		\centering
@@ -388,10 +386,10 @@
 	La función de transferencia global resulta:
 	\begin{equation}
 		FdT{Global} =\frac{-0.06335}{7.5 s^3+6.553 s^2+1.046s+0.006367}
-	\end{equation}
+	\end{equation}\newpage
 	
 	\subsection{Análisis de estabilidad absoluta y relativa}
-	Para probar la estabilidad absoluta de una función de transferencia, se puede analizar los polos de la misma. Un sistema es estable de forma absoluta si todos sus polos tienen partes reales negativas. Esto implica que, para que el sistema sea estable, la solución a la ecuación característica asociada a la función de transferencia debe tener raíces con partes reales negativas.Por otro lado valuamos la estabilidad relativa de sistema con herramientas gráficas como el lugar de raíces, que muestra cómo evolucionan las posiciones de los polos a lazo cerrado cuando varia el valor de kp.
+	Para probar la estabilidad absoluta de una función de transferencia, se puede analizar los polos de la misma. Un sistema es estable de forma absoluta si todos sus polos tienen partes reales negativas. Esto implica que, para que el sistema sea estable, la solución a la ecuación característica asociada a la función de transferencia debe tener raíces con partes reales negativas. Por otro lado, valuamos la estabilidad relativa de sistema con herramientas gráficas como el lugar de raíces, que muestra cómo evolucionan las posiciones de los polos a lazo cerrado cuando varia el valor de kp.
 	
 	\begin{lstlisting}
 		% Definir la funcion de transferencia a lazo abireto (GH)
@@ -419,7 +417,7 @@
 		title('Lugar de Raices de la Funcion de Transferencia');
 		xlabel('Parte Real');
 		ylabel('Parte Imaginaria');
-	\end{lstlisting} 
+	\end{lstlisting}
 	
 	Las raíces de la ecuación característica son:
 	\begin{equation}
@@ -427,15 +425,15 @@
 	\end{equation}
 	
 	Todas las raíces de la ecuación característica tienen parte real negativa, podría decirse que el sistema es estable de forma absoluta, de forma relativa podemos decir que  para valores de k menores a 11 el sistema es estable y para valores mayores el  deja de serlo.\newpage
-	  
+
 	\begin{figure}
 		\includegraphics[width=1\linewidth]{Imagenes/Rlocus}
 		\caption[Lugar de raíces de la función de transferencia global]{Lugar de raíces de FdTGlobal}
 		\label{fig:rlocus}
-	\end{figure}
+	\end{figure}\newpage
 	
 	\subsection{Análisis de la respuesta temporal}
-	Verificamos el comportamiento del sistema, simulando la respuesta al escalón unitario con distintos valores de kp, la forma de respuesta es decreciente esto se debe a que aumenta la señal de entrada disminuye la salida (ganancia negativa) este comportamiento es esperable ya que la temperatura debe disminuir cuando la señal de control (PWM) aumenta.
+	Verificamos el comportamiento del sistema simulando la respuesta al escalón unitario con distintos valores de kp. La forma de respuesta es decreciente: esto se debe a que aumentar la señal de entrada disminuye la salida (ganancia negativa). Este comportamiento es esperable,  ya que la temperatura debe disminuir cuando la señal de control (PWM) aumenta.
 	
 	\begin{lstlisting}
 		%Definimos distintos valores de k para simular la respuesta 
@@ -473,7 +471,7 @@
 		grid on
 	\end{lstlisting}
 	
-	En el resultado de la simulación podemos ver que el sistema es estable para $kp=5$ e inestable para $kp=20$, este resultado es esperable de acuerdo al análisis de estabilidad relativa que se realizo anteriormente.
+	En el resultado de la simulación, podemos ver que el sistema es estable para $kp=5$ e inestable para $kp=20$. Este resultado es esperable de acuerdo al análisis de estabilidad relativa que se realizo anteriormente.
 	
 	\begin{figure}[bh]
 		\centering
@@ -485,15 +483,15 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=1\linewidth]{Imagenes/Respuesta_escalon_Fdtglobal}
-		\caption[Respuesta al escalo unitario]{Respuesta al escalo unitario}
+		\caption[Respuesta al escalón unitario]{Respuesta al escalón unitario}
 		\label{fig:respuestaescalonfdtglobal}
 	\end{figure}\newpage
 	
 	\subsubsection{Determinación del tipo de sistema}
-	Para determinar el tipo de sistema, nos enfocamos en la cantidad de integradores en la trayectoria directa, lo cual se observa en la cantidad de polos en el origen (s = 0) de la función de transferencia a lazo abierto.	En este caso, la función de transferencia no tiene ningún factor 's' aislado en el denominador.Por lo tanto, este sistema es de Tipo 0. Esto quiere decir que el error de estado estable para una entrada escalón es constante, en nuestro caso esta representa la temperatura de referencia (setpoint), por lo que resulta de interés tener el menor error de estado estable posible.
+	Para determinar el tipo de sistema, nos enfocamos en la cantidad de integradores en la trayectoria directa, lo cual se observa en la cantidad de polos en el origen (s = 0) de la función de transferencia a lazo abierto. En este caso, la función de transferencia no tiene ningún factor 's' aislado en el denominador. Por lo tanto, este sistema es de Tipo 0. Esto quiere decir que el error de estado estable para una entrada escalón es constante; en nuestro caso, esta representa a la temperatura de referencia (setpoint), por lo que resulta de interés tener el menor error de estado estable posible.
 
 	\subsubsection{Polos dominantes}
-	Respecto a los polos dominantes, en este caso lo tenemos en $p3=-0.007$, su proximidad al origen hace que la respuesta del sistema sea demasiada lenta (esto es esperable en sistemas térmicos), podemos ver en la respuesta temporal que el tiempo de establecimiento esta en el orden de los 700 segundos, este valor dista mucho de las especificaciones de diseño por lo que resulta imperioso corregirlo al momento de compensar el sistema.\newpage
+	Respecto a los polos dominantes, en este caso lo tenemos en $p3=-0.007$, su proximidad al origen hace que la respuesta del sistema sea demasiada lenta (esto es esperable en sistemas térmicos). Podemos ver en la respuesta temporal que el tiempo de establecimiento esta en el orden de los 700 segundos; este valor dista mucho de las especificaciones de diseño por lo que resulta imperioso corregirlo al momento de compensar el sistema.\newpage
 	
 \section{Especificaciones de diseño}
 	Partimos de las especificaciones de diseño en el dominio del tiempo, los requerimientos son:
@@ -507,13 +505,13 @@
 		Mp\leq 4 \%
 	\end{equation}
 	
-	Para un primer análisis, podríamos tratar de implementar un compensador PID que cancele los dos polos dominantes $p2=-0.2$ y $p3=-0.007$, esto permite mejorar la respuesta temporal (hacerlo mas rápido al sistema) y al mismo tiempo mejorar el error de estado estable (aumenta el tipo), ambas cosas son deseables, sin embargo el hecho de que el sistema tenga una ganancia negativa y un polo al origen, hace que el sistema compensado sea inestable para todo kp, como se muestra en el siguiente análisis.
-	
+	Para un primer análisis, podríamos tratar de implementar un compensador PID que cancele los dos polos dominantes $p2=-0.2$ y $p3=-0.007$, esto permite mejorar la respuesta temporal (hacerlo mas rápido al sistema) y al mismo tiempo mejorar el error de estado estable (aumenta el tipo). Ambas cosas son deseables, sin embargo el hecho de que el sistema tenga una ganancia negativa y un polo al origen hace que el sistema compensado sea inestable para todo kp, como se muestra en el siguiente análisis.
+	\newpage
 \section{Diseño del controlador}
 	Análisis para la implementación de para el compensador:
 	\begin{lstlisting}
 		% Definir la variable simbolica para la funcion de transferencia
-		s = tf('s');  
+		s = tf('s');
 		
 		% Funciones de transferencia individuales
 		FdT_Planta = 1/(7.5*s^2 + 6.5*s + 1);         % Funcion de transferencia de la planta
@@ -529,7 +527,7 @@
 		
 		% Mostrar la funcion de transferencia a lazo abierto en forma de ceros y polos
 		disp('La funcion de transferencia a lazo abierto explicita');
-		GH=zpk(GH)  
+		GH=zpk(GH)
 		
 		% La ecuacion caracteristica de la funcion de transferencia a lazo abierto resulta ser:
 		% Ec(s) = (s+0.6667)(s^2 + 0.207s + 0.0014)
@@ -548,11 +546,11 @@
 		b = 0.207/0.0014;    % Calculamos b
 		a = 1/0.0014;        % Calculamos a
 		
-		Ti = b              
-		Td = a/Ti        
+		Ti = b
+		Td = a/Ti
 		
 		% Armamos el controlador PID utilizando los valores de Ti y Td
-		PID =(Ti*Td*s^2 +Ti*s+1)/(Ti*s) 
+		PID =(Ti*Td*s^2 +Ti*s+1)/(Ti*s)
 		
 		% Armamos la funcion de transferencia a lazo abierto compensado (con PID)
 		FdT_Global_PID = PID*GH
@@ -571,13 +569,13 @@
 		title('Mapa de Polos y Ceros con Controlador PID');
 		xlabel('real');
 		ylabel('imaginaria');
-		grid on;      
+		grid on;
 		
 		% Simplificamos la expresion para obtener una forma mas compacta
 		FdT_Global_PID = minreal(FdT_Global_PID)  % Simplificacion de la fdt
 		figure;
-		rlocus(FdT_Global_PID);         
-		grid on;                          
+		rlocus(FdT_Global_PID);
+		grid on;
 		title('Lugar de raices de la funcion de transferencia compensada');
 	\end{lstlisting}
 	
@@ -589,20 +587,20 @@
 	La función a lazo cerrado global compensada es:
 	\begin{equation}
 		FdT_{GlobalComp}=\frac{0.4525s^2 + 0.09366s + 0.006335}{1109s^4 + 968.8s^3 + 154.6s^2 + 1.035s}
-	\end{equation} 
+	\end{equation}
 	
-	En este grafico se verifica la cancelación de los dos polos mas dominantes y el polo al origen que se agrega por el PID.
+	En este gráfico se verifica la cancelación de los dos polos mas dominantes y el polo al origen que se agrega por el PID.
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=1\linewidth]{Imagenes/Pzmap}
-		\caption[Polos y ceros, antes vs después de la compensación]{Polos y ceros, antes vs despues de la compensación}
+		\caption[Polos y ceros, antes vs después de la compensación]{Polos y ceros, antes vs después de la compensación}
 		\label{fig:pzmap}
 	\end{figure}
 	
-	El lugar de raíces confirma que el sistema termina siendo inestable para todo kp,esto también descarta el compensador PI, por lo mencionado anteriormente ,la única opción radica en un compensador PD, el cual lo desarrollamos a continuación.\newline
+	El lugar de raíces confirma que el sistema termina siendo inestable para todo kp, esto también descarta el compensador PI, por lo mencionado anteriormente. La única opción radica en un compensador PD, el cual lo desarrollamos a continuación.\newline
 	
-	Otra  alternativa seria añadir un inversor, para que la ganancia total del sistema resulte positiva y poder utilizar el compensador PID,para mejorar tanto la respuesta transitoria como el error en estado estable del sistema.\newpage
-	  
+	Otra  alternativa seria añadir un inversor, para que la ganancia total del sistema resulte positiva y poder utilizar el compensador PID para mejorar tanto la respuesta transitoria como el error en estado estable del sistema.\newpage
+
 	\begin{figure}[bht]
 		\centering
 		\includegraphics[width=1\linewidth]{Imagenes/Rlocus_comp_PID}
@@ -643,8 +641,8 @@
 		FdT_Global_PD = minreal(FdT_Global_PD)  % Simplificacion de la fdt
 		
 		figure;
-		rlocus(FdT_Global_PD);         
-		grid on;                         
+		rlocus(FdT_Global_PD);
+		grid on;
 		title('Lugar de raices de la funcion de transferencia compensada');
 		
 		%Estable para kp<11
@@ -678,9 +676,10 @@
 	\end{figure}
 	
 	Analizando el lugar de raíces podemos concluir que el sistema es estable para todo $kp<11$, a menor el valor de este, mayor velocidad de respuesta se obtiene.Un valor adecuado de ganancia proporcional es $kp=1$ ya que cumple con el tiempo de establecimiento que se tiene como requerimiento
+	\newpage
 
 \section{Simulación}
-	En esta sección nos interesa compara la respuesta temporal antes y después de compensar, ademas de calcular el error de estado estable del sistema.
+	En esta sección, nos interesa comparar la respuesta temporal antes y después de compensar, además de calcular el error de estado estable del sistema.
 	
 	\begin{lstlisting}
 		% El valor que satisface los requerimientos es kp = 1
@@ -693,7 +692,7 @@
 		title('Comparativa respuesta temporal');
 		legend('no compensado', 'compensado')
 		
-	\end{lstlisting}\newpage
+	\end{lstlisting}
 	
 	\begin{figure}[h!]
 		\centering
@@ -702,7 +701,7 @@
 		\label{fig:respuestatemporalcomparativa}
 	\end{figure}
 	
-	Se puede ver una mejora significativa en el tiempo de establecimiento.Respecto al error en estado estable podemos realizar el siguiente análisis, sabemos que el sistema no tiene polos en el origen (Tipo 0), por lo que esperamos un error de estado estable constante frente a la respuesta de un escalón, luego:
+	Se puede ver una mejora significativa en el tiempo de establecimiento. Respecto al error en estado estable, podemos realizar el siguiente análisis. Sabemos que el sistema no tiene polos en el origen (Tipo 0), por lo que esperamos un error de estado estable constante frente a la respuesta de un escalón, luego:
 	
 	\begin{lstlisting}
 		%Analisis del error en estado estable, la fdt global resulta un sistema de
@@ -724,12 +723,12 @@
 	
 \section{Conclusiones}
 	Se han modelado todas las partes del sistema mediante diversos métodos para obtener la función de transferencia global, el sistema resulto ser marginalmente estable con una respuesta transitoria insatisfactoria. Mediante la utilización de un compensador proporcional-derivativo se mejora la respuesta transitoria en un 1400\% aproximadamente sin afectar al sobrepasamiento y ni al error de estado estable.
-
+\newpage
 \section{Bibliografía}
 	Bibliografía de referencia:
 	\begin{itemize}
-		\item Presentaciones Ing.Pedroni
-		\item Sistemas de control automático- Benjamín.C.Kuo
+		\item Presentaciones - Ing. Pedroni
+		\item Sistemas de control automático - Benjamín.C.Kuo
 	\end{itemize}
 	
 	Nota: Todos los archivos utilizados en el informe (matlab/simulink, documentación, imágenes, datos, etc) se encuentran en el siguiente link de repositorio:\newline
