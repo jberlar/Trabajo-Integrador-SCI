@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1739222000.82451 "c:/Users/julib/Downloads/sctrl/Trabajo-Integrador-SCI/Bernaus_Campos.TFI.SCI2024.tex" "Bernaus_Campos.TFI.SCI2024.pdf" "Bernaus_Campos.TFI.SCI2024" 1739222004.12013 0
-  "Bernaus_Campos.TFI.SCI2024.aux" 1739222003 5875 1d93afeaa6608d8f72721c6f9bb92e46 "pdflatex"
-  "Bernaus_Campos.TFI.SCI2024.tex" 1739221993 35143 595418add54f744830c80bd28ff28681 ""
-  "Bernaus_Campos.TFI.SCI2024.toc" 1739222003 1970 1076d231bd717b52422246eb7f60cdd2 "pdflatex"
+["pdflatex"] 1742162861.42966 "c:/Users/julib/Downloads/sctrl/Trabajo-Integrador-SCI/Bernaus_Campos.TFI.SCI2024.tex" "Bernaus_Campos.TFI.SCI2024.pdf" "Bernaus_Campos.TFI.SCI2024" 1742162867.60707 0
+  "Bernaus_Campos.TFI.SCI2024.aux" 1742162866 5875 1d93afeaa6608d8f72721c6f9bb92e46 "pdflatex"
+  "Bernaus_Campos.TFI.SCI2024.tex" 1742162859 34900 4a97b4617dbe797123f51a2abafcd694 ""
+  "Bernaus_Campos.TFI.SCI2024.toc" 1742162866 1970 1076d231bd717b52422246eb7f60cdd2 "pdflatex"
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/tcrm1200.tfm" 993062508 1444 95ffe0f19b974d50849790c8225c7ef7 ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/tcsi1000.tfm" 993062516 1608 b8299685f4bbb1e25a3c027ebfbeaba2 ""
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/tcss1000.tfm" 993062538 1460 1ddd8a8c398c62fda962364496bd93ce ""
@@ -23,7 +23,6 @@
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
-  "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmtt12.tfm" 1136765053 772 9a936b7f5e2ff0557fce0f62822f0bbf ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
@@ -38,7 +37,6 @@
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb" 1247596666 28902 2f5c04fd2884d1878057baa5aad22765 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb" 1247596666 25150 e0d09798d232ab9d00c5c0a8df6cc22d ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
-  "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1247596666 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
   "C:/Program Files/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Program Files/MiKTeX/tex/generic/babel/babel.sty" 1738512962 143388 9ce5bad8b42f41e4aa7a3b4c9ef5d069 ""
   "C:/Program Files/MiKTeX/tex/generic/babel/locale/es/babel-es.ini" 1738512967 4345 33a8cc6f0a7c6afcb84895b2c963a4e5 ""
@@ -152,7 +150,7 @@
   "Imagenes/Simulink.png" 1738272544 25343 b1a9171819f76237ff7c282c4b48c05f ""
   "Imagenes/Sistema_comleto.png" 1738272544 35378 a2646807dc04d09d1a6f08ea303ff954 ""
   "Imagenes/pwm_vs_temp.png" 1738272544 26363 477d072a938732e9b56ff20ea68765b0 ""
-  "c:/Users/julib/Downloads/sctrl/Trabajo-Integrador-SCI/Bernaus_Campos.TFI.SCI2024.tex" 1739221993 35143 595418add54f744830c80bd28ff28681 ""
+  "c:/Users/julib/Downloads/sctrl/Trabajo-Integrador-SCI/Bernaus_Campos.TFI.SCI2024.tex" 1742162859 34900 4a97b4617dbe797123f51a2abafcd694 ""
   (generated)
   "Bernaus_Campos.TFI.SCI2024.aux"
   "Bernaus_Campos.TFI.SCI2024.log"
